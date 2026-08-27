@@ -1,27 +1,28 @@
 package vn.edu.crs.course_service.controller;
 
-import vn.edu.crs.course_service.dto.CourseDTO;
-import vn.edu.crs.course_service.service.CourseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.SortDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import vn.edu.crs.course_service.dto.CourseDTO;
+import vn.edu.crs.course_service.service.CourseService;
 
 @RestController
 @RequestMapping("/courses")
 @RequiredArgsConstructor
 public class CourseController {
+
     private final CourseService courseService;
 
+    // Tự động sắp xếp id giảm dần (DESC) - môn mới nhất sẽ lên đầu trang 1
     @GetMapping
     public Page<CourseDTO> search(
             @RequestParam(required = false) String keyword,
-            Pageable pageable) {
+            @SortDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         return courseService.search(keyword, pageable);
     }
 

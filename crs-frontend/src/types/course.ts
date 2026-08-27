@@ -12,3 +12,14 @@ export interface PagedResponse<T> {
     number: number; // trang hien tai (bat dau tu 0)
     size: number;
 }
+export interface CourseFormValues {
+    tenMonHoc: string;
+    soTinChi: string; // Dùng string trong form để dễ kiểm soát input rỗng
+    soChoToiDa: string;
+}
+
+export const emptyCourseForm: CourseFormValues = {
+    tenMonHoc: '',
+    soTinChi: '',
+    soChoToiDa: '',
+};
