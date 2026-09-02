@@ -1,5 +1,5 @@
 interface PaginationProps {
-    currentPage: number; // Index bat dau tu 0 (khop Pageable cua Spring Data)
+    currentPage: number;
     totalPages: number;
     onPageChange: (page: number) => void;
 }
@@ -14,8 +14,9 @@ export default function Pagination({
     const pages = Array.from({ length: totalPages }, (_, i) => i);
 
     return (
-        <div style={{ display: 'flex', gap: 6, marginTop: 16 }}>
+        <div style={{ display: 'flex', gap: 6, marginTop: 16, alignItems: 'center' }}>
             <button
+                type="button"
                 disabled={currentPage === 0}
                 onClick={() => onPageChange(currentPage - 1)}
             >
@@ -24,6 +25,7 @@ export default function Pagination({
 
             {pages.map((p) => (
                 <button
+                    type="button"
                     key={p}
                     onClick={() => onPageChange(p)}
                     style={{
@@ -36,6 +38,7 @@ export default function Pagination({
             ))}
 
             <button
+                type="button"
                 disabled={currentPage >= totalPages - 1}
                 onClick={() => onPageChange(currentPage + 1)}
             >

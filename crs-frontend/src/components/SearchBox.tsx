@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface SearchBoxProps {
     onSearch: (keyword: string) => void;
@@ -7,13 +7,19 @@ interface SearchBoxProps {
 
 export default function SearchBox({ onSearch, placeholder }: SearchBoxProps) {
     const [inputValue, setInputValue] = useState('');
+    const isFirstRender = useRef(true);
 
     useEffect(() => {
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+            return;
+        }
+
         const timer = setTimeout(() => {
             onSearch(inputValue.trim());
         }, 400);
 
-        return () => clearTimeout(timer); // Huy timer cu khi nguoi dung tiep tuc go
+        return () => clearTimeout(timer);
     }, [inputValue, onSearch]);
 
     return (

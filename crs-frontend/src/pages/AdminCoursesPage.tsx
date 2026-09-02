@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import axios from 'axios';
 import { useCourses } from '../api/useCourses';
 import { createCourse, updateCourse, deleteCourse } from '../api/courseApi';
@@ -17,10 +17,10 @@ export default function AdminCoursesPage() {
     const [formError, setFormError] = useState<string | null>(null);
     const { courses, totalPages, state, errorMessage, refetch } = useCourses(keyword, page);
 
-    const handleSearch = (newKeyword: string) => {
+    const handleSearch = useCallback((newKeyword: string) => {
         setKeyword(newKeyword);
         setPage(0);
-    };
+    }, []);
 
     const extractErrorMessage = (err: unknown): string => {
         if (axios.isAxiosError<ApiErrorResponse>(err)) {
@@ -83,7 +83,11 @@ export default function AdminCoursesPage() {
                     onDelete={handleDelete}
                 />
             </div>
-            <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />
+            <Pagination
+                currentPage={page}
+                totalPages={totalPages}
+                onPageChange={setPage}
+            />
         </div>
     );
 }
