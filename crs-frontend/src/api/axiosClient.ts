@@ -7,6 +7,7 @@ const axiosClient = axios.create({
     },
 });
 
+// Request Interceptor (Giữ nguyên từ Buổi 7)
 axiosClient.interceptors.request.use((config) => {
     const token = localStorage.getItem('crs_token');
     if (token) {
@@ -14,5 +15,24 @@ axiosClient.interceptors.request.use((config) => {
     }
     return config;
 });
+
+// Response Interceptor (MỚI ở Buổi 8 - Xử lý 401 tự logout)
+axiosClient.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (
+            axios.isAxiosError(error) &&
+            (error.response?.status === 401 || error.response?.status === 403)
+        ) {
+            localStorage.removeItem('crs_token');
+            localStorage.removeItem('crs_user');
+
+            if (window.location.pathname !== '/login') {
+                window.location.href = '/login';
+            }
+        }
+        return Promise.reject(error);
+    }
+);
 
 export default axiosClient;
