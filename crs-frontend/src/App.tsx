@@ -7,6 +7,7 @@ import AdminCoursesPage from './pages/AdminCoursesPage';
 import RegisterCoursePage from './pages/RegisterCoursePage';
 import Navbar from './components/Navbar';
 import MyRegistrationsPage from './pages/MyRegistrationsPage';
+import ApiKeysPage from './pages/ApiKeysPage';
 
 function App() {
     return (
@@ -38,6 +39,14 @@ function App() {
                         element={
                             <ProtectedRoute requiredRole="STUDENT">
                                 <MyRegistrationsPage />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/admin/api-keys"
+                        element={
+                            <ProtectedRoute requiredRole="ADMIN">
+                                <ApiKeysPage />
                             </ProtectedRoute>
                         }
                     />
